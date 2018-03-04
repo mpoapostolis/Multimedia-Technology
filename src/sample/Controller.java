@@ -25,30 +25,31 @@ import java.util.stream.Stream;
 
 public class Controller {
 
-    private double time = 0.0;
-
     @FXML
     GridPane simulation;
-
     @FXML
     Label timeLabel;
-
+    private double time = 0.0;
     private List<String> myList = new ArrayList<>();
 
-    private String getColor(int x){
-        if (x == 0){
+    /**
+     * @param altidute
+     * @return HexColor
+     */
+    private String getColor(int x) {
+        if (x == 0) {
             return "#0000FF";
-        } else if (x < 200){
+        } else if (x < 200) {
             return "#3CB371";
-        } else if (x < 400){
+        } else if (x < 400) {
             return "#2E8B57";
-        } else if (x < 700){
+        } else if (x < 700) {
             return "#228B22";
-        }  else if (x < 1500){
+        } else if (x < 1500) {
             return "#DEB887";
-        }  else if (x < 3500){
+        } else if (x < 3500) {
             return "#CD853F";
-        }  else {
+        } else {
             return "#915014";
         }
     }
@@ -58,14 +59,14 @@ public class Controller {
         simulation.getChildren().clear();
         timeLabel.setText(Double.toString(time));
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-        double Width = (primaryScreenBounds.getWidth()* 0.8) / 1.2  / 60;
-        double Height = primaryScreenBounds.getHeight() / 1.2/ 30;
+        double Width = (primaryScreenBounds.getWidth() * 0.8) / 1.2 / 60;
+        double Height = primaryScreenBounds.getHeight() / 1.2 / 30;
         String color = "#FFFFFF";
         int altitude = 0;
-        for (int i=0; i<30; i++){
-            for (int j =0; j<60; j++ ) {
-                if(myList.size() > 0){
-                    altitude = Integer.parseInt(myList.get((i*30)+j));
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 60; j++) {
+                if (myList.size() > 0) {
+                    altitude = Integer.parseInt(myList.get((i * 30) + j));
                     color = getColor(altitude);
                 }
                 StackPane sp = new StackPane();
@@ -73,13 +74,13 @@ public class Controller {
                 sp.setStyle(String.format("-fx-background-color: %s", color));
                 Label l = new Label(Integer.toString(altitude));
                 sp.getChildren().addAll(l);
-                simulation.add(sp,j,i);
+                simulation.add(sp, j, i);
             }
         }
     }
 
-    private void updateTime(){
-        time ++;
+    private void updateTime() {
+        time++;
         draw();
     }
 
@@ -94,7 +95,12 @@ public class Controller {
         timeline.play();
     }
 
-        @FXML
+    /**
+     * @param event
+     * @throws IOException
+     */
+
+    @FXML
     public void chooseFile(ActionEvent event) throws IOException {
 
         FileChooser fileChooser = new FileChooser();
@@ -105,12 +111,12 @@ public class Controller {
 
         //Show save file dialog
         File file = fileChooser.showOpenDialog(null);
-        if(file != null){
-          String fullPath = file.getCanonicalPath();
-          Path path = Paths.get(fullPath);
-          Stream <String> lines = Files.lines(path);
-          lines.forEach(line -> Arrays.asList(line.split(",")).forEach(myList::add));
-          draw();
+        if (file != null) {
+            String fullPath = file.getCanonicalPath();
+            Path path = Paths.get(fullPath);
+            Stream<String> lines = Files.lines(path);
+            lines.forEach(line -> Arrays.asList(line.split(",")).forEach(myList::add));
+            draw();
         }
     }
 
