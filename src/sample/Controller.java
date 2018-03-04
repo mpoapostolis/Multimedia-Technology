@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
@@ -8,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,10 +25,15 @@ import java.util.stream.Stream;
 
 public class Controller {
 
-    private List<String> myList = new ArrayList<>();
+    private double time = 0.0;
 
     @FXML
     GridPane simulation;
+
+    @FXML
+    Label timeLabel;
+
+    private List<String> myList = new ArrayList<>();
 
     private String getColor(int x){
         if (x == 0){
@@ -47,6 +56,7 @@ public class Controller {
     @FXML
     public void draw() {
         simulation.getChildren().clear();
+        timeLabel.setText(Double.toString(time));
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         double Width = (primaryScreenBounds.getWidth()* 0.8) / 1.2  / 60;
         double Height = primaryScreenBounds.getHeight() / 1.2/ 30;
@@ -57,7 +67,6 @@ public class Controller {
                 if(myList.size() > 0){
                     altitude = Integer.parseInt(myList.get((i*30)+j));
                     color = getColor(altitude);
-                    System.out.println(color);
                 }
                 StackPane sp = new StackPane();
                 sp.setPrefSize(Width, Height);
@@ -69,13 +78,24 @@ public class Controller {
         }
     }
 
-    @FXML
-    public void initialize() {
+    private void updateTime(){
+        time ++;
         draw();
     }
 
+    @FXML
+    public void initialize() {
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(1000),
+                ae -> updateTime()
+        ));
+
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
         @FXML
-    public void test (ActionEvent event) throws IOException {
+    public void chooseFile(ActionEvent event) throws IOException {
 
         FileChooser fileChooser = new FileChooser();
 
