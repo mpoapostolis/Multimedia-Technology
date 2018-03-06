@@ -1,7 +1,5 @@
 package simulations;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -15,17 +13,18 @@ public class Render {
      * @param airports
      */
 
-    public void drawAirports(GridPane simulation, List<String> airports) {
-        for (int i = 0; i < airports.size(); i++) {
-            String imagePath = "resources/airport.png";
-            String[] row = airports.get(i).split(",");
-            int x = Integer.parseInt(row[1])-1;
-            int y = Integer.parseInt(row[2])-1;
-            Image image = new Image(imagePath);
-            ImageView imageView = new ImageView(image);
-            imageView.minHeight(16);
-            imageView.minWidth(16);
-            simulation.add(imageView, x, y);
+
+    public void drawAirplanes(GridPane simulation, List<Flight> flights) {
+        for (Flight flight : flights) {
+            Airplane plane = flight.getAirplane();
+            simulation.add(plane.getImgView(), plane.getX(), plane.getY());
+        }
+    }
+
+
+    public void drawAirports(GridPane simulation, List<Airport> airports) {
+        for (Airport airport : airports) {
+            simulation.add(airport.getImgView(), airport.getX(), airport.getY());
         }
     }
 
@@ -37,21 +36,19 @@ public class Render {
     public void drawMap(GridPane simulation, List<String> worldMap) {
         String color;
         int listSize = worldMap.size();
-        int altitude;
+        int colorNumber;
         double Width = 16;
         double Height = 16;
-        Pane p = new Pane();
 
         for (int i = 0; i < listSize; i++) {
             String[] lineArr = worldMap.get(i).split(",");
             for (int j = 0; j < 60; j++) {
-                altitude = Integer.parseInt(lineArr[j]);
-                color = getColor(altitude);
-                Pane sp = new Pane();
-                sp.setMinSize(Width, Height);
-                sp.setStyle(String.format("-fx-background-color: %s", color));
-                sp.getChildren().addAll(p);
-                simulation.add(sp, j, i);
+                colorNumber = Integer.parseInt(lineArr[j]);
+                color = getColor(colorNumber);
+                Pane pane = new Pane();
+                pane.setMinSize(Width, Height);
+                pane.setStyle(String.format("-fx-background-color: %s", color));
+                simulation.add(pane, j, i);
             }
         }
     }
