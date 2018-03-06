@@ -95,16 +95,14 @@ public class Controller {
         totalAircraft.setText("Total Aircrafts: " + totalAirplanes);
         landings.setText("Landings: " + reached);
         collisions.setText("Collisions: " + collides);
-
-
     }
 
     @FXML
     public void load() {
-        String mapStr = "resources/world_default.txt";
-        String airStr = "resources/airports_default.txt";
-        String flStr = "resources/flights_default.txt";
-//        PopUp.display("test", "aaa");
+        String mapId = simulations.Popup.display("test");
+        String mapStr = "resources/world_" + mapId + ".txt";
+        String airStr = "resources/airports_" + mapId + ".txt";
+        String flStr = "resources/flights_" + mapId + ".txt";
         loadMaps(mapStr);
         loadAirports(airStr);
         loadFlights(flStr);

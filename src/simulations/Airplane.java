@@ -85,10 +85,8 @@ public class Airplane {
     private void loadImage() {
         String imagePath = String.format("resources/%s_%s.png", type.getCode(), direction.getCode());
         System.out.println(imagePath);
-        Image img = new Image(imagePath);
+        Image img = new Image(imagePath,16, 16, false, false);
         imgView = new ImageView(img);
-        imgView.minHeight(16);
-        imgView.minWidth(16);
     }
 
     public int getX() {
