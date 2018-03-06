@@ -12,8 +12,6 @@ public class Render {
      * @param simulation
      * @param airports
      */
-
-
     public void drawAirplanes(GridPane simulation, List<Flight> flights) {
         for (Flight flight : flights) {
             Airplane plane = flight.getAirplane();
@@ -21,7 +19,10 @@ public class Render {
         }
     }
 
-
+    /**
+     * @param simulation
+     * @param airports
+     */
     public void drawAirports(GridPane simulation, List<Airport> airports) {
         for (Airport airport : airports) {
             simulation.add(airport.getImgView(), airport.getX(), airport.getY());

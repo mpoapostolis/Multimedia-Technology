@@ -24,10 +24,19 @@ public enum Direction {
             map.put(direction.directionNum, direction);
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     */
     public static Direction of(int value) {
         return (Direction) map.get(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCode() {
         return code;
     }

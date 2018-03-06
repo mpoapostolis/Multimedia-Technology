@@ -15,6 +15,9 @@ public class Flight {
     private int fuel;
     private Airplane airplane;
 
+    /**
+     * @param row
+     */
     public Flight(String[] row) {
         this.id = Integer.parseInt(row[0]);
         this.time = Integer.parseInt(row[1]);
@@ -37,6 +40,10 @@ public class Flight {
         return airplane;
     }
 
+    /**
+     * @param airports
+     * @return
+     */
     public boolean isValid(List<Airport> airports) {
         if (type.getAltitude() < altitude || type.getFuel() < fuel || type.getSpeed() < speed) {
             System.out.println(String.format("Flight with id %s has invalid airplane type", id));
@@ -47,8 +54,8 @@ public class Flight {
         Airport destinationAirport = airports.stream().filter(a -> a.getId() == endId).collect(Collectors.toList()).get(0);
         this.airplane.setDestination(destinationAirport);
         return airports.stream()
-                .filter( a -> a.getId() == startId || a.getId() == endId)
-                .allMatch( a -> a.isOpen() && a.supports(type));
+                .filter(a -> a.getId() == startId || a.getId() == endId)
+                .allMatch(a -> a.isOpen() && a.supports(type));
     }
 
     public int getTime() {

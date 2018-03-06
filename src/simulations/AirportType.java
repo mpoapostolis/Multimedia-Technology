@@ -11,7 +11,6 @@ public enum AirportType {
 
     private final int type;
     private static Map map = new HashMap<>();
-
     AirportType(int type) {
         this.type = type;
     }
@@ -21,6 +20,11 @@ public enum AirportType {
             map.put(airportType.type, airportType);
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     */
     public static AirportType of(int value) {
         return (AirportType) map.get(value);
     }
